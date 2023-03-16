@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.get("/", (req, res) => res.send("Srver is running"));
+app.get("/", (req, res) => res.send("Server is running"));
 
 //listen
 app.listen(port, () =>
