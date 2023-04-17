@@ -1,24 +1,29 @@
 import React from "react";
 import "../styles/RegisterStyle.css";
-import { Form, Input,message } from "antd";
-import { Link,useNavigate } from "react-router-dom";
-import axios from 'axios';
+import { Form, Input, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { showLoading, hideLoading } from "../redux/features/alertSlice";
 
 const Register = () => {
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onfinishHandler = async (value) => {
     try {
-      const res = await axios.post('/api/v1/user/register',value)
-      if(res.data.success){
-        message.success('Register successfully!')
+      dispatch(showLoading());
+      const res = await axios.post("/api/v1/user/register", value);
+      dispatch(hideLoading());
+      if (res.data.success) {
+        message.success("Register successfully!");
         navigate("/login");
-      }else{
-        message.error("Something went wrong")
+      } else {
+        message.error("Something went wrong");
       }
     } catch (error) {
-      console.log(error)
-      message.error("something went wrong")
+      dispatch(hideLoading());
+      console.log(error);
+      message.error("something went wrong");
     }
   };
   return (
@@ -48,5 +53,5 @@ const Register = () => {
     </>
   );
 };
- 
+
 export default Register;

@@ -1,24 +1,30 @@
 import React from "react";
 import "../styles/RegisterStyle.css";
-import { Form, Input,message } from "antd";
-import { Link } from "react-router-dom";
-import axios from 'axios';
+import { Form, Input, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { showLoading, hideLoading } from "../redux/features/alertSlice";
 
 const Login = () => {
-  const navigate = useNavigate()
-  const onfinishHandler = async(value) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const onfinishHandler = async (value) => {
     try {
-      const res = await axios.post('/api/v1/user/login',value)
-      if(res.data.success){
-        localStorage.setItem("token",res.data.token);
-        message.success('RLogin successfully!')
+      dispatch(showLoading());
+      const res = await axios.post("/api/v1/user/login", value);
+      dispatch(hideLoading());
+      if (res.data.success) {
+        localStorage.setItem("token", res.data.token);
+        message.success("RLogin successfully!");
         navigate("/");
-      }else{
-        message.error(res.data.message)
+      } else {
+        message.error(res.data.message);
       }
     } catch (error) {
-      console.log(error)
-      message.error("something went wrong")
+      dispatch(hideLoading());
+      console.log(error);
+      message.error("something went wrong");
     }
   };
   return (
