@@ -13,6 +13,7 @@ const Login = () => {
     try {
       dispatch(showLoading());
       const res = await axios.post("/api/v1/user/login", value);
+      window.location.reload();
       dispatch(hideLoading());
       if (res.data.success) {
         localStorage.setItem("token", res.data.token);
@@ -40,7 +41,7 @@ const Login = () => {
             <Input type="email" required />
           </Form.Item>
           <Form.Item label="Password" name="password">
-            <Input type="text" required />
+            <Input type="password" required />
           </Form.Item>
           <Link className="m-2" to="/register">
             Not a user Register here

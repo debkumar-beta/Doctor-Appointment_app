@@ -1,6 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
+import ApplyDoctor from "./pages/ApplyDoctor";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { useSelector } from "react-redux";
@@ -21,6 +22,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <HomePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/apply-doctor"
+              element={
+                <ProtectedRoute>
+                  <ApplyDoctor />
                 </ProtectedRoute>
               }
             />
