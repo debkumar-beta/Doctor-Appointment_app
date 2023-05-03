@@ -1,27 +1,25 @@
 import React from "react";
 import "../styles/LayoutStyles.css";
-import { Link, useLocation,useNavigate } from "react-router-dom";
-import { UserMenu,AdminMenu } from "../Data/data";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { UserMenu, AdminMenu } from "../Data/data";
 import { useSelector } from "react-redux";
 
-import { message } from "antd";
+import { Badge, message } from "antd";
+import Avatar from "antd/es/avatar/avatar";
 export default function Layout({ children }) {
-  const { user } = useSelector( state => state.user)
+  const { user } = useSelector((state) => state.user);
   const location = useLocation();
   const navigate = useNavigate();
 
   //logout function
-  const handleLogout = () =>{
-    localStorage.clear()
-    message.success('Logout Successfully')
-    navigate('/login')
-
-  }
-
-
+  const handleLogout = () => {
+    localStorage.clear();
+    message.success("Logout Successfully");
+    navigate("/login");
+  };
 
   // rendering menu list
-  const SidebarMenu = user?.isAdmin? AdminMenu:UserMenu
+  const SidebarMenu = user?.isAdmin ? AdminMenu : UserMenu;
   return (
     <>
       <div className="main">
@@ -44,16 +42,19 @@ export default function Layout({ children }) {
                   </>
                 );
               })}
-              <div className={`menu-item`} onClick={handleLogout} >
-                      <i className="fa-solid fa-right-from-bracket">
-                        <Link to="/login">Logout</Link>
-                      </i>
-                    </div>
+              <div className={`menu-item`} onClick={handleLogout}>
+                <i className="fa-solid fa-right-from-bracket">
+                  <Link to="/login">Logout</Link>
+                </i>
+              </div>
             </div>
           </div>
           <div className="content">
             <div className="header-content">
-              <i class='fa-solid fa-bell'></i>
+              <Badge count={user && user.notification.length}>
+                <i class="fa-solid fa-bell"></i>
+              </Badge>
+
               <Link to="/profile">{user?.name}</Link>
             </div>
             <div className="body">{children}</div>
